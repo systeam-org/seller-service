@@ -20,4 +20,9 @@ node {
 
       ]
   }
+
+  stage('Build Docker Image') {
+    build_ddr = build job: "${BuildContainer}"
+  }
+
 }
