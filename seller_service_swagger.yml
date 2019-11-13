@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+    title: E-commerce Seller APIs
+    description: Systeam e-commerce Seller portal APIs
+    version: 0.1.0
+
+servers:
+    - url: https://sellerapi.systembiz.com
+      description: Seller API endpoint
+
+paths:
+    /categories:
+        get:
+            summary: Get the list of product categories
+            responses:
+                '200':
+                    description: Returns the existing list of product categories
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                  type: string
+                                  
+    /addproduct:
+        post:
+            summary: Add a new product
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                              category_name:
+                                type: string
+                              email:
+                                type: string
+                              product_name:
+                                type: string
+                              description:
+                                type: string
+                              price:
+                                type: integer
+                              available_quantity:
+                                type: integer
+                              image:
+                                type: string
+            responses:
+                '200':
+                    description: Product Addition
+                                    
+    /products:
+        get:
+            summary: To get list of products of given seller
+            parameters:
+                - in: query
+                  name: email
+                  required: true
+                  schema:
+                      type: object
+                      properties:
+                          email:
+                              type: string
+                      required: 
+                          - email
+                  description: Email of seller
+            responses:
+                '200':
+                    description: Returns list of products for given seller
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        product_id:
+                                          type: integer
+                                        category_name:
+                                          type: string
+                                        product_name:
+                                          type: string
+                                        description:
+                                          type: string
+                                        price:
+                                          type: integer
+                                        available_quantity:
+                                          type: integer
+                                        image:
+                                          type: string
+                                    required:
+                                        - category_name
+                                        - product_name
+                                        - description
+                                        - price
+                                        - available_quantity
+                                        - image
+                                        
+    /updateproduct:
+        post:
+            summary: Updates an existing product
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                              product_id:
+                                type: integer
+                              email:
+                                type: string
+                              product_name:
+                                type: string
+                              description:
+                                type: string
+                              price:
+                                type: integer
+                              available_quantity:
+                                type: integer
+                              image:
+                                type: string
+            responses:
+                '200':
+                    description: Returns the id of the product which is updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    product_id:
+                                      type: integer
+                                required:
+                                    - product_id
+    /orders:
+        get:
+            summary: To get list of orders for given seller
+            parameters:
+                - in: query
+                  name: email
+                  required: true
+                  schema:
+                      type: object
+                      properties:
+                          email:
+                              type: string
+                      required: 
+                          - email
+                  description: Email of seller
+            responses:
+                '200':
+                    description: Returns list of orders for given seller
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        order_id:
+                                          type: integer
+                                        total_amount:
+                                          type: integer
+                                        created_on:
+                                          type: string
+                                          format: date-time
+                                        status:
+                                          type: string
+                                        email:
+                                          type: string
+                                    required:
+                                        - order_id
+                                        - total_amount
+                                        - created_on
+                                        - status
+                                        - email
+
+    /user:
+        get:
+            summary: To get user info from database. Based on role value allow access
+            parameters:
+                - in: query
+                  name: email
+                  schema:
+                      type: string
+                  description: pass user email
+
+            responses:
+                '200':
+                    description: Returns user info
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    role:
+                                        type: integer
+        post:
+            summary: To add user or to update user role
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                first_name:
+                                    type: string
+                                last_name:
+                                    type: string
+                                email:
+                                    type: string
+                                token:
+                                    type: string
+            responses:
+                '200':
+                    description: returns if operation is successful
