@@ -2,7 +2,7 @@
 node {
   def TestService = 'TestService'
 
-  stage('Build Codebase') {
+  stage('Run Test Cases') {
     build_ddr = build job: "${TestService}",
       parameters: [
         "ServiceName" : "Seller"
