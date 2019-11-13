@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 node {
-  def TestService = 'TestService'
+  def TestServiceJob = 'TestService'
+  def BuildContainerJob = 'BuildContainer'
 
   stage('Checkout from Git') {
   		checkout ([
@@ -14,7 +15,7 @@ node {
   }
 
   stage('Execute API Tests') {
-    build_ddr = build job: "${TestService}",
+    build_ddr = build job: "${TestServiceJob}",
       parameters: [
         string(name: 'ServiceName', value: "Seller")
 
@@ -22,7 +23,7 @@ node {
   }
 
   stage('Build Docker Image') {
-    build_ddr = build job: "${BuildContainer}"
+    build_ddr = build job: "${BuildContainerJob}"
   }
 
 }
