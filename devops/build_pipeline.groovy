@@ -13,7 +13,7 @@ node {
   		])
   }
 
-  stage('Run Test Cases') {
+  stage('Execute API Tests') {
     build_ddr = build job: "${TestService}",
       parameters: [
         string(name: 'ServiceName', value: "Seller")
