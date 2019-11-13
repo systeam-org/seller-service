@@ -5,7 +5,7 @@ node {
   stage('Run Test Cases') {
     build_ddr = build job: "${TestService}",
       parameters: [
-        "ServiceName" : "Seller"
+        string(name: 'ServiceName', value: "Seller")
       ]
   }
 }
