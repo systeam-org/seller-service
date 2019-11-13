@@ -10,7 +10,6 @@ node {
   				[$class: 'CleanCheckout']
   		],
   		userRemoteConfigs: [[credentialsId: 'admin', url: 'https://github.com/systeam-org/seller-service']]
-
   		])
   }
 
