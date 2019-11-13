@@ -6,6 +6,7 @@ node {
     build_ddr = build job: "${TestService}",
       parameters: [
         string(name: 'ServiceName', value: "Seller")
+
       ]
   }
 }
