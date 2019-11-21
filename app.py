@@ -3,6 +3,7 @@ from flask import request,Flask, Response
 from flask_cors import CORS
 import operations
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/categories', methods=['GET'])
 def get_categories():
@@ -12,8 +13,9 @@ def get_categories():
 
 @app.route('/addproduct', methods=['POST'])
 def add_product():
-    body = json.loads(request.data)
-    result = operations.add_product(body)
+    image = request.files['image'].read()
+    data = json.loads(request.values.get('data'))
+    result = operations.add_product(image, data)
     return Response(json.dumps(result), mimetype='application/json', status=200)
 
 

@@ -23,7 +23,11 @@ node {
   }
 
   stage('Build Docker Image') {
-    build_ddr = build job: "${BuildContainerJob}"
+    build_ddr = build job: "${BuildContainerJob}",
+    parameters: [
+        string(name: 'GitRepo', value: "SellerGit")
+
+      ]
   }
 
 }

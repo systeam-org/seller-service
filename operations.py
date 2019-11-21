@@ -1,13 +1,15 @@
 import mysql.connector
 import os
+import base64
 cnx = None
 
 def get_connection():
     global cnx
 
     if not cnx:
-        cnx = mysql.connector.connect(user = 'root', password='admin123', host='localhost', database = 'systeam_ecommerce',
+        cnx = mysql.connector.connect(user = 'root', password='admin123', host='localhost', database = 'systeam_ecommerce1',
                               auth_plugin='mysql_native_password')
+        cnx.autocommit = True
     return cnx
 
 def get_categories():
@@ -21,18 +23,19 @@ def get_categories():
         result.append(row[0])
     return result
 
-def add_product(body):
+def add_product(image, body):
     conn = get_connection()
     cursor = conn.cursor()
 
-    sql = "Insert into systeam_ecommerce.products (category_name, email, product_name," \
+    sql = "Insert into products (category_name, email, product_name," \
           " description, price, available_quantity, image) values (%s,%s,%s,%s,%s,%s,%s)"
     values = (body['category_name'], body['email'], body['product_name'],
-              body['description'], body['price'], body['available_quantity'], body['image'])
+              body['description'], body['price'], body['available_quantity'], base64.b64encode(image))
     rows = cursor.execute(sql, values)
     product_id = cursor.lastrowid
     conn.commit()
     return {'product_added': 'ok'}
+
 
 def get_products(email):
     cursor = get_connection().cursor()
