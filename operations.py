@@ -7,7 +7,7 @@ def get_connection():
     global cnx
 
     if not cnx:
-        cnx = mysql.connector.connect(user = 'root', password='admin123', host='localhost', database = 'systeam_ecommerce1',
+        cnx = mysql.connector.connect(user = 'root', password='admin123', host='localhost', database = 'systeam_ecommerce',
                               auth_plugin='mysql_native_password')
         cnx.autocommit = True
     return cnx
@@ -67,7 +67,7 @@ def update_product(body):
     result = []
     for key in body.keys():
         if not key == 'product_id':
-            sql = "Update systeam_ecommerce.products set " + key + " = '" + str(body[key]) + "' where product_id = " + str(product_id)
+            sql = "Update products set " + key + " = '" + str(body[key]) + "' where product_id = " + str(product_id)
             rows = cursor.execute(sql)
             response = {key: str(body[key])}
             result.append(response)
@@ -131,14 +131,14 @@ def add_or_update_user(body):
     cursor = conn.cursor()
 
     if not current_role:
-        sql = "Insert into systeam_ecommerce.users (first_name, last_name, email, token, role)  values (%s, %s,%s, %s,%s)"
+        sql = "Insert into users (first_name, last_name, email, token, role)  values (%s, %s,%s, %s,%s)"
         values = (body['first_name'], body['last_name'],  body['email'], body['token'], 'Seller')
         rows = cursor.execute(sql, values)
     elif current_role == 'Seller':
-        sql = "Update systeam_ecommerce.users SET role = 'Buyer-Seller' , token = '" + body['token'] +"' where email = '" +body['email']+ "'"
+        sql = "Update users SET role = 'Buyer-Seller' , token = '" + body['token'] +"' where email = '" +body['email']+ "'"
         rows = cursor.execute(sql)
     elif current_role == 'Buyer' or current_role == 'Buyer-Seller':
-        sql = "Update systeam_ecommerce.users SET token = '" + body['token'] +"' where email = '" +body['email']+ "'"
+        sql = "Update users SET token = '" + body['token'] +"' where email = '" +body['email']+ "'"
         rows = cursor.execute(sql)
 
     conn.commit()
