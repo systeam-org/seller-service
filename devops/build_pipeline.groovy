@@ -2,6 +2,7 @@
 node {
   def TestServiceJob = 'TestSellerService'
   def BuildContainerJob = 'BuildContainer'
+  def DeployServiceJob = 'DeployService'
   def GitOrganization = "systeam-org"
   def ServiceGitRepo = "seller-service"
   def DockerHubOrganization = "systeamorg"
@@ -32,6 +33,14 @@ node {
         string(name: 'DockerHubOrganization', value: "${DockerHubOrganization}"),
         string(name: 'ServiceDockerHubRepo', value: "${ServiceDockerHubRepo}"),
         string(name: 'ServiceBuildNumber', value: "${ServiceBuildNumber}")
+      ]
+   }
+
+   stage('Deploy Service') {
+    build_ddr = build job: "${DeployServiceJob}",
+    parameters: [
+        string(name: 'GitOrganization', value: "${GitOrganization}"),
+        string(name: 'ServiceGitRepo', value: "${ServiceGitRepo}")
       ]
   }
 
