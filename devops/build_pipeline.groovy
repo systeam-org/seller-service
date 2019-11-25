@@ -19,7 +19,6 @@ node {
   		])
   }
 
-
   stage('Execute API Tests') {
     build_service = build job: "${TestServiceJob}"
   }
