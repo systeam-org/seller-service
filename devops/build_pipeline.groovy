@@ -31,7 +31,7 @@ node {
         string(name: 'ServiceGitRepo', value: "${ServiceGitRepo}"),
         string(name: 'DockerHubOrganization', value: "${DockerHubOrganization}"),
         string(name: 'ServiceDockerHubRepo', value: "${ServiceDockerHubRepo}"),
-        string(name: 'ServiceBuildNumber', value: "${ServiceBuildNumber}"),
+        string(name: 'ServiceBuildNumber', value: "${ServiceBuildNumber}")
       ]
   }
 
