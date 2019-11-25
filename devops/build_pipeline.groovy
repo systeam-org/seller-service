@@ -15,7 +15,7 @@ node {
   		extensions: [
   				[$class: 'CleanCheckout']
   		],
-  		userRemoteConfigs: [[credentialsId: 'admin', url: 'https://github.com/${GitOrganization}/${ServiceGitRepo}']]
+  		userRemoteConfigs: [[credentialsId: 'admin', url: "https://github.com/${GitOrganization}/${ServiceGitRepo}"]]
   		])
   }
 
