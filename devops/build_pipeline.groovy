@@ -6,6 +6,7 @@ node {
   def ServiceGitRepo = "seller-service"
   def DockerHubOrganization = "systeamorg"
   def ServiceDockerHubRepo = "seller-service"
+  def ServiceBuildNumber = "${env.BUILD_NUMBER}"
 
 
   stage('Checkout from Git') {
@@ -29,7 +30,8 @@ node {
         string(name: 'GitOrganization', value: "${GitOrganization}"),
         string(name: 'ServiceGitRepo', value: "${ServiceGitRepo}"),
         string(name: 'DockerHubOrganization', value: "${DockerHubOrganization}"),
-        string(name: 'ServiceDockerHubRepo', value: "${ServiceDockerHubRepo}")
+        string(name: 'ServiceDockerHubRepo', value: "${ServiceDockerHubRepo}"),
+        string(name: 'ServiceBuildNumber', value: "${ServiceBuildNumber}"),
       ]
   }
 
