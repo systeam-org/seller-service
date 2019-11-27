@@ -21,7 +21,7 @@ class TestFunctions(unittest.TestCase):
             res = c.get('/orders?email=seller@gmail.com')
 
             # Passing the mock object
-            response = [{'order_id': 1, 'total_amount': 14, 'created_on': '2019-11-24 18:59:38', 'status': 'Ordered', 'products': [{'product_name': 'T-Shirt', 'product_id': 1,'quantity': 2, 'unit_cost': 7}]}, {'order_id': 2, 'total_amount': 7, 'created_on': '2019-11-24 23:14:45', 'status': 'Ordered', 'products': [{'product_name': 'T-Shirt', 'product_id': 1, 'quantity': 1, 'unit_cost': 7}]}]
+            response = []
             data = json.loads(res.get_data(as_text=True))
             # Assert response
             print(data)
