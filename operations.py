@@ -1,15 +1,25 @@
 import mysql.connector
 import os
 import base64
+import Constants
 cnx = None
 
 def get_connection():
     global cnx
 
     if not cnx:
-        cnx = mysql.connector.connect(user = 'root', password='admin123', host='localhost', database = 'systeam_ecommerce',
-                              auth_plugin='mysql_native_password')
-        cnx.autocommit = True
+        try:
+            cnx = mysql.connector.connect(user=Constants.LOCAL_DATABASE_USER,
+                                          password=Constants.LOCAL_DATABASE_PASSWORD,
+                                          host=Constants.LOCAL_DATABASE_ENDPOINT,
+                                          database=Constants.LOCAL_DATABASE_NAME,
+                                          auth_plugin='mysql_native_password')
+        except:
+            cnx = mysql.connector.connect(user=Constants.PRODUCTION_DATABASE_USER,
+                                          password=Constants.PRODUCTION_DATABASE_PASSWORD,
+                                          host=Constants.PRODUCTION_DATABASE_ENDPOINT,
+                                          database=Constants.PRODUCTION_DATABASE_NAME,
+                                          auth_plugin='mysql_native_password')
     return cnx
 
 def get_categories():
