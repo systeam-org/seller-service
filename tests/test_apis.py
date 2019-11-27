@@ -39,6 +39,17 @@ class TestFunctions(unittest.TestCase):
             print(data)
             self.assertEqual(data, response)
 
+    # Test of get_products API
+    def test_get_products(self):
+        with app.test_client() as c:
+            res = c.get('/products?email=abc@gmail.com')
+
+            # Passing the mock object
+            response = []
+            data = json.loads(res.get_data(as_text=True))
+            # Assert response
+            print(data)
+            self.assertEqual(data, response)
 
 if __name__ == '__main__':
     unittest.main()
