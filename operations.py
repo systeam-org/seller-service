@@ -7,24 +7,25 @@ cnx = None
 def get_connection():
     global cnx
 
-    if not cnx:
-        try:
-            cnx = mysql.connector.connect(user=Constants.LOCAL_DATABASE_USER,
-                                          password=Constants.LOCAL_DATABASE_PASSWORD,
-                                          host=Constants.LOCAL_DATABASE_ENDPOINT,
-                                          database=Constants.LOCAL_DATABASE_NAME,
-                                          auth_plugin='mysql_native_password')
-        except:
-            cnx = mysql.connector.connect(user=Constants.PRODUCTION_DATABASE_USER,
-                                          password=Constants.PRODUCTION_DATABASE_PASSWORD,
-                                          host=Constants.PRODUCTION_DATABASE_ENDPOINT,
-                                          database=Constants.PRODUCTION_DATABASE_NAME,
-                                          auth_plugin='mysql_native_password')
-        cnx.autocommit = True
+
+    try:
+        cnx = mysql.connector.connect(user=Constants.LOCAL_DATABASE_USER,
+                                      password=Constants.LOCAL_DATABASE_PASSWORD,
+                                      host=Constants.LOCAL_DATABASE_ENDPOINT,
+                                      database=Constants.LOCAL_DATABASE_NAME,
+                                      auth_plugin='mysql_native_password')
+    except:
+        cnx = mysql.connector.connect(user=Constants.PRODUCTION_DATABASE_USER,
+                                      password=Constants.PRODUCTION_DATABASE_PASSWORD,
+                                      host=Constants.PRODUCTION_DATABASE_ENDPOINT,
+                                      database=Constants.PRODUCTION_DATABASE_NAME,
+                                      auth_plugin='mysql_native_password')
+    cnx.autocommit = True
     return cnx
 
 def get_categories():
-    cursor = get_connection().cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("SELECT category_name FROM category")
     rows = cursor.fetchall()
 
@@ -32,6 +33,7 @@ def get_categories():
 
     for row in rows:
         result.append(row[0])
+    conn.close()
     return result
 
 def add_product(image, body):
@@ -45,11 +47,13 @@ def add_product(image, body):
     rows = cursor.execute(sql, values)
     product_id = cursor.lastrowid
     conn.commit()
+    conn.close()
     return {'product_added': 'ok'}
 
 
 def get_products(email):
-    cursor = get_connection().cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
 
     if email:
         cursor.execute("SELECT * FROM products where email = '" + email + "'")
@@ -69,6 +73,7 @@ def get_products(email):
         product['available_quantity'] = row[6]
         product['image'] = row[7]
         result.append(product)
+    conn.close()
     return result
 
 def update_product(body):
@@ -85,11 +90,13 @@ def update_product(body):
     product_id = cursor.lastrowid
 
     conn.commit()
+    conn.close()
     return {"Fields_Updated": result}
 
 def get_orders(email):
 
-    cursor = get_connection().cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM orders join order_details on order_details.order_id = orders.order_id join products p on order_details.product_id = p.product_id where p.email = '" + email + "'")
 
@@ -119,14 +126,17 @@ def get_orders(email):
         for i in range(len(result)):
             if result[i]['order_id'] == order_id:
                 result[i]['products'].append(product)
+    conn.close()
     return result
 
 
 def get_user(email):
-    cursor = get_connection().cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("SELECT role FROM users where email = '"+email+"'")
     rows = cursor.fetchall()
 
+    conn.close()
     if len(rows) < 1:
         return None
     else:
@@ -153,5 +163,5 @@ def add_or_update_user(body):
         rows = cursor.execute(sql)
 
     conn.commit()
-
+    conn.close()
     return True
