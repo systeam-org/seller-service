@@ -17,7 +17,6 @@ spec:
       containers:
       - name: seller-service
         image: systeamorg/seller-service
-        imagePullPolicy: Never
         ports:
         - containerPort: 82
 
