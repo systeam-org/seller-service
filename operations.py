@@ -20,13 +20,14 @@ def get_connection():
                                       host=Constants.PRODUCTION_DATABASE_ENDPOINT,
                                       database=Constants.PRODUCTION_DATABASE_NAME,
                                       auth_plugin='mysql_native_password')
+    print(cnx.server_host)
     cnx.autocommit = True
     return cnx
 
 def get_categories():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT category_name FROM category")
+    cursor.execute("SELECT category_name FROM category1")
     rows = cursor.fetchall()
 
     result = []
