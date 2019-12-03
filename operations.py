@@ -27,7 +27,7 @@ def get_connection():
 def get_categories():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT category_name FROM category1")
+    cursor.execute("SELECT category_name FROM category")
     rows = cursor.fetchall()
 
     result = []
