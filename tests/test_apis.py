@@ -33,7 +33,7 @@ class TestFunctions(unittest.TestCase):
             res = c.get('/categories')
 
             # Passing the mock object
-            response = []
+            response = ['Furniture']
             data = json.loads(res.get_data(as_text=True))
             # Assert response
             print(data)
